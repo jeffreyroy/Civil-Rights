@@ -16,6 +16,8 @@
 		85757DEF20DB2ACB00216677 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85757DED20DB2ACB00216677 /* LaunchScreen.storyboard */; };
 		85757DFA20DB2ACB00216677 /* RightsWatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85757DF920DB2ACB00216677 /* RightsWatchTests.swift */; };
 		85757E0520DB2ACB00216677 /* RightsWatchUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85757E0420DB2ACB00216677 /* RightsWatchUITests.swift */; };
+		85757E1320DB2AF500216677 /* CourtListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85757E1220DB2AF500216677 /* CourtListener.swift */; };
+		85757E1520DB2B1300216677 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85757E1420DB2B1300216677 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,8 @@
 		85757E0020DB2ACB00216677 /* RightsWatchUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RightsWatchUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		85757E0420DB2ACB00216677 /* RightsWatchUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RightsWatchUITests.swift; sourceTree = "<group>"; };
 		85757E0620DB2ACB00216677 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		85757E1220DB2AF500216677 /* CourtListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourtListener.swift; sourceTree = "<group>"; };
+		85757E1420DB2B1300216677 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +113,8 @@
 				85757DED20DB2ACB00216677 /* LaunchScreen.storyboard */,
 				85757DF020DB2ACB00216677 /* Info.plist */,
 				85757DE120DB2ACB00216677 /* RightsWatch.xcdatamodeld */,
+				85757E1220DB2AF500216677 /* CourtListener.swift */,
+				85757E1420DB2B1300216677 /* Constants.swift */,
 			);
 			path = RightsWatch;
 			sourceTree = "<group>";
@@ -269,6 +275,8 @@
 				85757DE020DB2ACB00216677 /* AppDelegate.swift in Sources */,
 				85757DE520DB2ACB00216677 /* MasterViewController.swift in Sources */,
 				85757DE720DB2ACB00216677 /* DetailViewController.swift in Sources */,
+				85757E1320DB2AF500216677 /* CourtListener.swift in Sources */,
+				85757E1520DB2B1300216677 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
