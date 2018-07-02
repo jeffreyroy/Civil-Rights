@@ -12,12 +12,17 @@ import Foundation
 class QuerySession {
     
     //let path = "https://words.bighugelabs.com/api/2/\(bhlKey)/\(word)/\(format)"
-    let path = "https://www.courtlistener.com/api/rest/v3/opinions/2812209/"
+    let clPath = "https://www.courtlistener.com/api/rest/v3/"
+    let pwPath = "https://\(un):\(pw)@www.courtlistener.com/api/rest/v3/"
+    let q = "opinions/2812209/"
+    let f = "?format=json"
     //let path = "https://\(un):\(pw)@www.courtlistener.com/api/rest/v3/clusters/?federal_cite_one=135+S.+Ct.+2584"
-    let clAuth = "Token " + clKey
+    let clAuth = "Token \(clKey)"
+    let pwAuth = "\(un):\(pw)"
     var session: URLSession?
+    var viewController: DetailViewController?
     
-    init() {
+    init(_ controller: DetailViewController) {
         
         // Create default session configuration
         let config = URLSessionConfiguration.default
@@ -28,17 +33,21 @@ class QuerySession {
         // Create new session
         session = URLSession(configuration: config)
         
+        viewController = controller
+        
     }
     
-    func QueryTask() {
+    func QueryTask(_ path: String) {
+        // Make sure we have an active session
         guard session != nil else {
             print("No url session")
             return
         }
+        // Create url
+        let urlPath = clPath + path
+        let url = URL(string: urlPath)
         
-        let url = URL(string: path)
         // Create task to make http request
-        
         let task = session!.dataTask(with: url!) { (data, response, error) in
             print("Data task complete")
             if let data = data  {
@@ -53,7 +62,15 @@ class QuerySession {
                         // throw error
                         return
                     }
-                    print(json)
+                    if let plainText = json["plain_text"] as? String {
+                        if let vc = self.viewController {
+                           DispatchQueue.main.async {
+                                vc.opinionView.attributedText = plainText.htmlToAttributedString
+                                vc.loadingIndicator.stopAnimating()
+                            }
+                        }
+                        print("Opinion length: \(plainText.count)")
+                    }
                 }
                 catch let error as NSError {
                     print(error.localizedDescription)

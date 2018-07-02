@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		854B3D5C20E065C100FD6ACD /* Opinion+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854B3D5620E065C100FD6ACD /* Opinion+CoreDataClass.swift */; };
+		854B3D5E20E065C100FD6ACD /* CaseLaw+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854B3D5820E065C100FD6ACD /* CaseLaw+CoreDataClass.swift */; };
 		85757DE020DB2ACB00216677 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85757DDF20DB2ACB00216677 /* AppDelegate.swift */; };
 		85757DE320DB2ACB00216677 /* RightsWatch.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 85757DE120DB2ACB00216677 /* RightsWatch.xcdatamodeld */; };
 		85757DE520DB2ACB00216677 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85757DE420DB2ACB00216677 /* MasterViewController.swift */; };
@@ -18,6 +20,8 @@
 		85757E0520DB2ACB00216677 /* RightsWatchUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85757E0420DB2ACB00216677 /* RightsWatchUITests.swift */; };
 		85757E1320DB2AF500216677 /* CourtListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85757E1220DB2AF500216677 /* CourtListener.swift */; };
 		85757E1520DB2B1300216677 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85757E1420DB2B1300216677 /* Constants.swift */; };
+		85D08FFE20E6CF620000C3D1 /* UIElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D08FFD20E6CF620000C3D1 /* UIElements.swift */; };
+		85D0900220E6D9FD0000C3D1 /* CaseFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D0900120E6D9FD0000C3D1 /* CaseFormViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		854B3D5620E065C100FD6ACD /* Opinion+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Opinion+CoreDataClass.swift"; sourceTree = "<group>"; };
+		854B3D5820E065C100FD6ACD /* CaseLaw+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CaseLaw+CoreDataClass.swift"; sourceTree = "<group>"; };
 		85757DDC20DB2ACB00216677 /* RightsWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RightsWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85757DDF20DB2ACB00216677 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		85757DE220DB2ACB00216677 /* RightsWatch.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RightsWatch.xcdatamodel; sourceTree = "<group>"; };
@@ -55,6 +61,8 @@
 		85757E0620DB2ACB00216677 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85757E1220DB2AF500216677 /* CourtListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourtListener.swift; sourceTree = "<group>"; };
 		85757E1420DB2B1300216677 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		85D08FFD20E6CF620000C3D1 /* UIElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIElements.swift; sourceTree = "<group>"; };
+		85D0900120E6D9FD0000C3D1 /* CaseFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseFormViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +93,9 @@
 		85757DD320DB2ACB00216677 = {
 			isa = PBXGroup;
 			children = (
+				85757DE620DB2ACB00216677 /* DetailViewController.swift */,
+				854B3D5620E065C100FD6ACD /* Opinion+CoreDataClass.swift */,
+				854B3D5820E065C100FD6ACD /* CaseLaw+CoreDataClass.swift */,
 				85757DDE20DB2ACB00216677 /* RightsWatch */,
 				85757DF820DB2ACB00216677 /* RightsWatchTests */,
 				85757E0320DB2ACB00216677 /* RightsWatchUITests */,
@@ -107,7 +118,6 @@
 			children = (
 				85757DDF20DB2ACB00216677 /* AppDelegate.swift */,
 				85757DE420DB2ACB00216677 /* MasterViewController.swift */,
-				85757DE620DB2ACB00216677 /* DetailViewController.swift */,
 				85757DE820DB2ACB00216677 /* Main.storyboard */,
 				85757DEB20DB2ACB00216677 /* Assets.xcassets */,
 				85757DED20DB2ACB00216677 /* LaunchScreen.storyboard */,
@@ -115,6 +125,8 @@
 				85757DE120DB2ACB00216677 /* RightsWatch.xcdatamodeld */,
 				85757E1220DB2AF500216677 /* CourtListener.swift */,
 				85757E1420DB2B1300216677 /* Constants.swift */,
+				85D08FFD20E6CF620000C3D1 /* UIElements.swift */,
+				85D0900120E6D9FD0000C3D1 /* CaseFormViewController.swift */,
 			);
 			path = RightsWatch;
 			sourceTree = "<group>";
@@ -271,11 +283,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85D0900220E6D9FD0000C3D1 /* CaseFormViewController.swift in Sources */,
 				85757DE320DB2ACB00216677 /* RightsWatch.xcdatamodeld in Sources */,
+				854B3D5E20E065C100FD6ACD /* CaseLaw+CoreDataClass.swift in Sources */,
+				854B3D5C20E065C100FD6ACD /* Opinion+CoreDataClass.swift in Sources */,
 				85757DE020DB2ACB00216677 /* AppDelegate.swift in Sources */,
 				85757DE520DB2ACB00216677 /* MasterViewController.swift in Sources */,
 				85757DE720DB2ACB00216677 /* DetailViewController.swift in Sources */,
 				85757E1320DB2AF500216677 /* CourtListener.swift in Sources */,
+				85D08FFE20E6CF620000C3D1 /* UIElements.swift in Sources */,
 				85757E1520DB2B1300216677 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

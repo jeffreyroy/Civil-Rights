@@ -7,21 +7,26 @@
 //
 
 import UIKit
-import CoreData
+import CoreData // API for interacting with database
 
 class MasterViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
+    // Controller for detailed view of single item
     var detailViewController: DetailViewController? = nil
+    // Database interface
     var managedObjectContext: NSManagedObjectContext? = nil
+    var c: CaseLaw?
+    var o: Opinion?
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        // Create edit button
         navigationItem.leftBarButtonItem = editButtonItem
-
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
-        navigationItem.rightBarButtonItem = addButton
+//        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
+//        // Create add button
+//        navigationItem.rightBarButtonItem = addButton
+        // Split view controller allows split screen in landscape mode
         if let split = splitViewController {
             let controllers = split.viewControllers
             detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
@@ -29,6 +34,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        // Clear selection if view isn't split (ie if in portrait mode)
         clearsSelectionOnViewWillAppear = splitViewController!.isCollapsed
         super.viewWillAppear(animated)
     }
@@ -38,13 +44,15 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         // Dispose of any resources that can be recreated.
     }
 
+    // When add button pressed, create a new item and add it to table
     @objc
     func insertNewObject(_ sender: Any) {
+        // Context allows temporary storage of items before saving to database
         let context = self.fetchedResultsController.managedObjectContext
-        let newEvent = Event(context: context)
+        let newCase = CaseLaw(context: context)
              
         // If appropriate, configure the new managed object.
-        newEvent.timestamp = Date()
+        newCase.timestamp = Date()
 
         // Save the context.
         do {
@@ -58,11 +66,13 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     }
 
     // MARK: - Segues
-
+    // Seugue to detail view
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail" {
             if let indexPath = tableView.indexPathForSelectedRow {
-            let object = fetchedResultsController.object(at: indexPath)
+                // Get object to be viewed
+                let object = fetchedResultsController.object(at: indexPath)
+                // Format detail view
                 let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
                 controller.detailItem = object
                 controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
@@ -73,19 +83,22 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
 
     // MARK: - Table View
 
+    // Return number of sections in table
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 0
     }
 
+    // Return number of items in each section
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let sectionInfo = fetchedResultsController.sections![section]
         return sectionInfo.numberOfObjects
     }
 
+    // Get cell
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let event = fetchedResultsController.object(at: indexPath)
-        configureCell(cell, withEvent: event)
+        let caseLaw = fetchedResultsController.object(at: indexPath)
+        configureCell(cell, withCase: caseLaw)
         return cell
     }
 
@@ -94,7 +107,9 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         return true
     }
 
+    // Allows editing cell in given style (.delete or .insert)
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        // Delete cell
         if editingStyle == .delete {
             let context = fetchedResultsController.managedObjectContext
             context.delete(fetchedResultsController.object(at: indexPath))
@@ -110,18 +125,18 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         }
     }
 
-    func configureCell(_ cell: UITableViewCell, withEvent event: Event) {
-        cell.textLabel!.text = event.timestamp!.description
+    func configureCell(_ cell: UITableViewCell, withCase caseLaw: CaseLaw) {
+        cell.textLabel!.text = caseLaw.description
     }
 
     // MARK: - Fetched results controller
 
-    var fetchedResultsController: NSFetchedResultsController<Event> {
+    var fetchedResultsController: NSFetchedResultsController<CaseLaw> {
         if _fetchedResultsController != nil {
             return _fetchedResultsController!
         }
         
-        let fetchRequest: NSFetchRequest<Event> = Event.fetchRequest()
+        let fetchRequest: NSFetchRequest<CaseLaw> = CaseLaw.fetchRequest()
         
         // Set the batch size to a suitable number.
         fetchRequest.fetchBatchSize = 20
@@ -148,7 +163,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         
         return _fetchedResultsController!
     }    
-    var _fetchedResultsController: NSFetchedResultsController<Event>? = nil
+    var _fetchedResultsController: NSFetchedResultsController<CaseLaw>? = nil
 
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
@@ -172,9 +187,9 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             case .delete:
                 tableView.deleteRows(at: [indexPath!], with: .fade)
             case .update:
-                configureCell(tableView.cellForRow(at: indexPath!)!, withEvent: anObject as! Event)
+                configureCell(tableView.cellForRow(at: indexPath!)!, withCase: anObject as! CaseLaw)
             case .move:
-                configureCell(tableView.cellForRow(at: indexPath!)!, withEvent: anObject as! Event)
+                configureCell(tableView.cellForRow(at: indexPath!)!, withCase: anObject as! CaseLaw)
                 tableView.moveRow(at: indexPath!, to: newIndexPath!)
         }
     }
