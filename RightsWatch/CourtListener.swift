@@ -9,6 +9,12 @@
 
 import Foundation
 
+enum CLError: Error {
+    case noConnection
+    case noResponse
+    case notJson
+}
+
 class QuerySession {
     
     //let path = "https://words.bighugelabs.com/api/2/\(bhlKey)/\(word)/\(format)"
@@ -37,7 +43,48 @@ class QuerySession {
         
     }
     
-    func QueryTask(_ path: String) {
+    // extract case id from court listener url
+    // e.g. ../opinions/4030562/
+    func idFromURL(_ url: String) -> Int? {
+        // Get components of url
+        var urlComponents = url.components(separatedBy: "/")
+        // Remove blank entry caused by trailing "/" in url
+        if urlComponents.last == "" { urlComponents.removeLast() }
+        // Return id if it exists
+        if let id = urlComponents.last {
+            return Int(id)
+        }
+        else { return nil }
+    }
+    
+    // Create url query from dictionary
+    func query(_ conditions: [String: String]) -> [String] {
+        return conditions.map { key, value in (key + "=" + value) }
+    }
+    
+    // Submit query
+    func getQuery(_ endpoint: String, _ query: String) {
+        let path = endpoint + "/?" + query
+        queryTask(path)
+    }
+    
+    // Find case by federal citation
+    func getCaseByCite(_ volume: Int, _ page: Int, _ us: Bool) {
+        let citation = "one"
+        let reporter = us ? "U.S." : "S.+Ct."
+        let query = "federal_cite_\(citation)=\(volume)+\(reporter)+\(page)"
+        getQuery("clusters", query)
+    }
+    
+    // Get opinion by opinion id
+    func getOpinionById(_ id: Int) {
+        let path = "opinions/\(id)"
+        queryTask(path)
+    }
+    
+    
+    // Function to submit request to court listener api
+    func queryTask(_ path: String) {
         // Make sure we have an active session
         guard session != nil else {
             print("No url session")
@@ -46,6 +93,7 @@ class QuerySession {
         // Create url
         let urlPath = clPath + path
         let url = URL(string: urlPath)
+        print("Submitting request to \(urlPath)")
         
         // Create task to make http request
         let task = session!.dataTask(with: url!) { (data, response, error) in
@@ -59,8 +107,7 @@ class QuerySession {
                     let jsonSerialized = try JSONSerialization.jsonObject(with: data, options: [])
                     // Try to convert to dictionary
                     guard let json = jsonSerialized as? [String : Any]  else {
-                        // throw error
-                        return
+                        throw CLError.notJson
                     }
                     if let plainText = json["plain_text"] as? String {
                         if let vc = self.viewController {
@@ -71,6 +118,15 @@ class QuerySession {
                         }
                         print("Opinion length: \(plainText.count)")
                     }
+                    if let results = json["results"] {
+                        let r = String(describing: results)
+                        if let vc = self.viewController {
+                            DispatchQueue.main.async {
+                                vc.opinionView.text = r
+                                vc.loadingIndicator.stopAnimating()
+                            }
+                        }
+                    }
                 }
                 catch let error as NSError {
                     print(error.localizedDescription)
@@ -78,9 +134,10 @@ class QuerySession {
             }
             else {
                 print("Request failed!")
-                print(error)
+                if let error = error {
+                    print(error.localizedDescription)
+                }
             }
-            
         }
         
         // Run task

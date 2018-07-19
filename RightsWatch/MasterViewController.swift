@@ -17,6 +17,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     var managedObjectContext: NSManagedObjectContext? = nil
     var c: CaseLaw?
     var o: Opinion?
+    var e: Event?
 
 
     override func viewDidLoad() {

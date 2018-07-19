@@ -37,8 +37,8 @@ class DetailViewController: UIViewController {
     
     func displayHTML() {
         let cl = QuerySession(self)
-        cl.QueryTask(cl.q)
-
+//        cl.queryTask(cl.q)
+        cl.getCaseByCite(135, 2584, false)
     }
 
     override func  didReceiveMemoryWarning() {
