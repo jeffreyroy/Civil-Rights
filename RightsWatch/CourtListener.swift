@@ -13,9 +13,13 @@ enum CLError: Error {
     case noConnection
     case noResponse
     case notJson
+    case noURL
 }
 
 class QuerySession {
+    
+    typealias ResponseHandler = (Data?, URLResponse?, Error?) -> Void
+    typealias ResponseDisplay = ([String: Any]?) -> Void
     
     //let path = "https://words.bighugelabs.com/api/2/\(bhlKey)/\(word)/\(format)"
     let clPath = "https://www.courtlistener.com/api/rest/v3/"
@@ -65,7 +69,7 @@ class QuerySession {
     // Submit query
     func getQuery(_ endpoint: String, _ query: String) {
         let path = endpoint + "/?" + query
-        queryTask(path)
+        queryTask(path, displayCase(_:))
     }
     
     // Find case by federal citation
@@ -79,54 +83,75 @@ class QuerySession {
     // Get opinion by opinion id
     func getOpinionById(_ id: Int) {
         let path = "opinions/\(id)"
-        queryTask(path)
+        queryTask(path, displayCase(_:))
     }
     
+    // Convert json data to dictionary
+    func jsonify(_ data: Data) throws -> [String: Any] {
+        print("Attempting to convert to json...")
+        // Convert the data to JSON
+        let jsonSerialized = try JSONSerialization.jsonObject(with: data, options: [])
+        // Try to convert to dictionary
+        guard let json = jsonSerialized as? [String : Any]  else {
+            throw CLError.notJson
+        }
+        return json
+    }
+    
+    func displayCase(_ jsonDictionary: [String: Any]?) -> Void {
+        print("Attempting to display opinion...")
+        guard let json = jsonDictionary else {
+            return
+        }
+        if let plainText = json["plain_text"] as? String {
+            if let vc = self.viewController {
+                DispatchQueue.main.async {
+                    vc.opinionView.attributedText = plainText.htmlToAttributedString
+                    vc.loadingIndicator.stopAnimating()
+                }
+            }
+            print("Opinion length: \(plainText.count)")
+        }
+        if let results = json["results"] {
+            let r = String(describing: results)
+            if let vc = self.viewController {
+                DispatchQueue.main.async {
+                    vc.opinionView.text = r
+                    vc.loadingIndicator.stopAnimating()
+                }
+            }
+        }
+    }
+    
+    func clURL(_ path: String) -> URL? {
+        let urlPath = clPath + path
+        return URL(string: urlPath)
+    }
     
     // Function to submit request to court listener api
-    func queryTask(_ path: String) {
+    func queryTask(_ path: String, _ displayHandler: ResponseDisplay? = nil) {
         // Make sure we have an active session
         guard session != nil else {
             print("No url session")
             return
         }
         // Create url
-        let urlPath = clPath + path
-        let url = URL(string: urlPath)
-        print("Submitting request to \(urlPath)")
+        guard let url = clURL(path) else {
+            print("No url")
+            return
+        }
+        print("Submitting request to \(url)")
         
         // Create task to make http request
-        let task = session!.dataTask(with: url!) { (data, response, error) in
+        let task = session!.dataTask(with: url) { (data, response, error) in
             print("Data task complete")
             if let data = data  {
-                
                 do {
-                    print("Attempting to convert to json...")
-                    //            let htmlPage: NSAttributedString? = NSAttributedString(html: data, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
-                    // Convert the data to JSON
-                    let jsonSerialized = try JSONSerialization.jsonObject(with: data, options: [])
-                    // Try to convert to dictionary
-                    guard let json = jsonSerialized as? [String : Any]  else {
-                        throw CLError.notJson
+                    let json = try self.jsonify(data)
+                    if let display = displayHandler {
+                        display(json)
                     }
-                    if let plainText = json["plain_text"] as? String {
-                        if let vc = self.viewController {
-                           DispatchQueue.main.async {
-                                vc.opinionView.attributedText = plainText.htmlToAttributedString
-                                vc.loadingIndicator.stopAnimating()
-                            }
-                        }
-                        print("Opinion length: \(plainText.count)")
-                    }
-                    if let results = json["results"] {
-                        let r = String(describing: results)
-                        if let vc = self.viewController {
-                            DispatchQueue.main.async {
-                                vc.opinionView.text = r
-                                vc.loadingIndicator.stopAnimating()
-                            }
-                        }
-                    }
+                    else { print("No display handler!")}
                 }
                 catch let error as NSError {
                     print(error.localizedDescription)

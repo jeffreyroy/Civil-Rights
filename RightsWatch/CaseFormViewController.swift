@@ -10,6 +10,31 @@
 import UIKit
 import CoreData // API for interacting with database
 
+enum SaveError: Error {
+    case badCite
+    case notFound
+}
+
+// Structure to hold basic case citation info
+struct Citation {
+    var volume: Int
+    var page: Int
+    var usReporter: Bool  // True if U.S., false if S.Ct.
+    // Verify citation form when initializing, throw error if
+    // not a valid citation
+    init(_ v: Int?, _ p: Int?, _ us: Bool = true) throws {
+        guard v != nil && p != nil else {
+            throw SaveError.badCite
+        }
+        guard v! > 0 && p! > 0 else {
+            throw SaveError.badCite
+        }
+        self.volume = v!
+        self.page = p!
+        self.usReporter = us
+    }
+}
+
 class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
    
     
@@ -82,15 +107,16 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
     }
     
     // Save item to database
+    // TBA:  Need to allow S.Ct. citation as alternative to U.S.
     func addItem() {
         print("Item edited")
         usVol = validate(volField)
         usPage = validate(pageField)
-
-        if usVol != nil && usPage != nil {
-            save(usVol!, usPage!, usReporter)
+        do {
+                let c = try Citation(usVol, usPage, usReporter)
+                try save(c)
         }
-        else {
+        catch {
             displayMessage("Invalid citation", badColor)
         }
     }
@@ -102,24 +128,30 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
         return nil
     }
     
+//    func getCase(_ c: Citation) -> Promise<CaseLaw> {
+//
+//    }
+    
     // Save case with volume v, page p
-    func save(_ v: Int, _ p: Int, _ us: Bool = true) {
+    func save(_ c: Citation) throws {
         
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
                 return
         }
-        
+        let v = c.volume
+        let p = c.page
+        // This check should be unnecessary now
         guard v > 0 && p > 0 else {
             displayMessage("Invalid citation", badColor)
-            return
+            throw SaveError.badCite
         }
         
         // Get managed object context to store changes to database
-        let managedContext =
+        let managedContext: NSManagedObjectContext =
             appDelegate.persistentContainer.viewContext
         let caseLaw = CaseLaw(context: managedContext)
-        if us {
+        if c.usReporter {
             caseLaw.usVol = Int16(v)
             caseLaw.usPage = Int16(p)
         }
@@ -132,18 +164,22 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
 
         // Save to database
         do {
-            try managedContext.save()
-            displayMessage("Item added.", goodColor)
-
-            if let tableController = table {
-//                print(tableController)
-//                tableController.people.append(caseLaw)
-                tableController.tableView.reloadData()
-            }
+            try toSave(managedContext)
             
         } catch let error as NSError {
             displayMessage("Could not save.", badColor)
             print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
+    func toSave(_ managedContext: NSManagedObjectContext) throws {
+        try managedContext.save()
+        displayMessage("Item added.", goodColor)
+        
+        if let tableController = table {
+            //                print(tableController)
+            //                tableController.people.append(caseLaw)
+            tableController.tableView.reloadData()
         }
     }
     

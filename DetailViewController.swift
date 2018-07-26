@@ -9,6 +9,8 @@
 import UIKit
 
 class DetailViewController: UIViewController {
+    
+    var caseId: Int = 0
 
     @IBOutlet weak var detailDescriptionLabel: UILabel!
 
@@ -21,11 +23,18 @@ class DetailViewController: UIViewController {
     
     func configureView() {
         // Update the user interface for the detail item.
-        if let detail = detailItem {
-            if let label = detailDescriptionLabel {
-                label.text = detail.description
-            }
+        
+        guard let detail = detailItem else {
+            return
         }
+        if let label = detailDescriptionLabel {
+            label.text = detail.description
+        }
+        caseId = Int(detail.clId)
+        if caseId > 0 {
+            // TBA: Get opinion text from CL
+        }
+
     }
 
     override func viewDidLoad() {

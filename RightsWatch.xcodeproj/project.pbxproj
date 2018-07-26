@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		16B8693267CEC3030AFB8A4C /* Pods_RightsWatch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18141C771835C54B620DE228 /* Pods_RightsWatch.framework */; };
 		854B3D5C20E065C100FD6ACD /* Opinion+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854B3D5620E065C100FD6ACD /* Opinion+CoreDataClass.swift */; };
 		854B3D5E20E065C100FD6ACD /* CaseLaw+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854B3D5820E065C100FD6ACD /* CaseLaw+CoreDataClass.swift */; };
 		85757DE020DB2ACB00216677 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85757DDF20DB2ACB00216677 /* AppDelegate.swift */; };
@@ -22,6 +23,7 @@
 		85757E1520DB2B1300216677 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85757E1420DB2B1300216677 /* Constants.swift */; };
 		85D08FFE20E6CF620000C3D1 /* UIElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D08FFD20E6CF620000C3D1 /* UIElements.swift */; };
 		85D0900220E6D9FD0000C3D1 /* CaseFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D0900120E6D9FD0000C3D1 /* CaseFormViewController.swift */; };
+		85D63969210A706D00557B6B /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 85D63968210A706D00557B6B /* Podfile */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		18141C771835C54B620DE228 /* Pods_RightsWatch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RightsWatch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		854B3D5620E065C100FD6ACD /* Opinion+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Opinion+CoreDataClass.swift"; sourceTree = "<group>"; };
 		854B3D5820E065C100FD6ACD /* CaseLaw+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CaseLaw+CoreDataClass.swift"; sourceTree = "<group>"; };
 		85757DDC20DB2ACB00216677 /* RightsWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RightsWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,6 +66,9 @@
 		85757E1420DB2B1300216677 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		85D08FFD20E6CF620000C3D1 /* UIElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIElements.swift; sourceTree = "<group>"; };
 		85D0900120E6D9FD0000C3D1 /* CaseFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseFormViewController.swift; sourceTree = "<group>"; };
+		85D63968210A706D00557B6B /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		8E3C1DCBD0B5CB9E6830C660 /* Pods-RightsWatch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RightsWatch.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RightsWatch/Pods-RightsWatch.debug.xcconfig"; sourceTree = "<group>"; };
+		FEAE8797D533B7C093993242 /* Pods-RightsWatch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RightsWatch.release.xcconfig"; path = "Pods/Target Support Files/Pods-RightsWatch/Pods-RightsWatch.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16B8693267CEC3030AFB8A4C /* Pods_RightsWatch.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,6 +100,7 @@
 		85757DD320DB2ACB00216677 = {
 			isa = PBXGroup;
 			children = (
+				85D63968210A706D00557B6B /* Podfile */,
 				85757DE620DB2ACB00216677 /* DetailViewController.swift */,
 				854B3D5620E065C100FD6ACD /* Opinion+CoreDataClass.swift */,
 				854B3D5820E065C100FD6ACD /* CaseLaw+CoreDataClass.swift */,
@@ -100,6 +108,8 @@
 				85757DF820DB2ACB00216677 /* RightsWatchTests */,
 				85757E0320DB2ACB00216677 /* RightsWatchUITests */,
 				85757DDD20DB2ACB00216677 /* Products */,
+				BA6B5B339B9D5E6B174F449E /* Pods */,
+				AC4659BCF0CF910BD54DB704 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -149,6 +159,23 @@
 			path = RightsWatchUITests;
 			sourceTree = "<group>";
 		};
+		AC4659BCF0CF910BD54DB704 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				18141C771835C54B620DE228 /* Pods_RightsWatch.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BA6B5B339B9D5E6B174F449E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8E3C1DCBD0B5CB9E6830C660 /* Pods-RightsWatch.debug.xcconfig */,
+				FEAE8797D533B7C093993242 /* Pods-RightsWatch.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -156,9 +183,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 85757E0920DB2ACB00216677 /* Build configuration list for PBXNativeTarget "RightsWatch" */;
 			buildPhases = (
+				3E0423CFC22827CEC121EC99 /* [CP] Check Pods Manifest.lock */,
 				85757DD820DB2ACB00216677 /* Sources */,
 				85757DD920DB2ACB00216677 /* Frameworks */,
 				85757DDA20DB2ACB00216677 /* Resources */,
+				BC5CB913DCF7E399EF14AE4A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -258,6 +287,7 @@
 			files = (
 				85757DEF20DB2ACB00216677 /* LaunchScreen.storyboard in Resources */,
 				85757DEC20DB2ACB00216677 /* Assets.xcassets in Resources */,
+				85D63969210A706D00557B6B /* Podfile in Resources */,
 				85757DEA20DB2ACB00216677 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -277,6 +307,45 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3E0423CFC22827CEC121EC99 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RightsWatch-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BC5CB913DCF7E399EF14AE4A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-RightsWatch/Pods-RightsWatch-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RightsWatch/Pods-RightsWatch-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		85757DD820DB2ACB00216677 /* Sources */ = {
@@ -456,6 +525,7 @@
 		};
 		85757E0A20DB2ACB00216677 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8E3C1DCBD0B5CB9E6830C660 /* Pods-RightsWatch.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -471,6 +541,7 @@
 		};
 		85757E0B20DB2ACB00216677 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FEAE8797D533B7C093993242 /* Pods-RightsWatch.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
