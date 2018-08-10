@@ -67,13 +67,19 @@ class QuerySession {
     }
     
     // Submit query
-    func getQuery(_ endpoint: String, _ query: String) {
+    func getQuery(_ endpoint: String, _ query: String = "") {
         let path = endpoint + "/?" + query
-        queryTask(path, displayCase(_:))
+        do {
+            try queryTask(path, displayCase(_:))
+
+        }
+        catch {
+            print(error)
+        }
     }
     
     // Find case by federal citation
-    func getCaseByCite(_ volume: Int, _ page: Int, _ us: Bool) {
+    func getCaseByCite(_ volume: Int16, _ page: Int16, _ us: Bool) {
         let citation = "one"
         let reporter = us ? "U.S." : "S.+Ct."
         let query = "federal_cite_\(citation)=\(volume)+\(reporter)+\(page)"
@@ -83,7 +89,7 @@ class QuerySession {
     // Get opinion by opinion id
     func getOpinionById(_ id: Int) {
         let path = "opinions/\(id)"
-        queryTask(path, displayCase(_:))
+        getQuery(path)
     }
     
     // Convert json data to dictionary
@@ -129,16 +135,14 @@ class QuerySession {
     }
     
     // Function to submit request to court listener api
-    func queryTask(_ path: String, _ displayHandler: ResponseDisplay? = nil) {
+    func queryTask(_ path: String, _ displayHandler: ResponseDisplay? = nil) throws {
         // Make sure we have an active session
         guard session != nil else {
-            print("No url session")
-            return
+            throw CLError.noConnection
         }
         // Create url
         guard let url = clURL(path) else {
-            print("No url")
-            return
+            throw CLError.noURL
         }
         print("Submitting request to \(url)")
         

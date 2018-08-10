@@ -44,10 +44,22 @@ class DetailViewController: UIViewController {
         self.displayHTML()
     }
     
+    
+    
     func displayHTML() {
+        guard let detail = detailItem else {
+            return
+        }
         let cl = QuerySession(self)
-//        cl.queryTask(cl.q)
-        cl.getCaseByCite(135, 2584, false)
+        if detail.usVol > 0 && detail.usPage > 0 {
+            cl.getCaseByCite(detail.usVol, detail.usPage, true)
+        }
+        else if detail.sctVol > 0 && detail.sctPage > 0 {
+            cl.getCaseByCite(detail.sctVol, detail.sctPage, false)
+        }
+        else {
+            opinionView.text = "Case not found.  Check citation."
+        }
     }
 
     override func  didReceiveMemoryWarning() {

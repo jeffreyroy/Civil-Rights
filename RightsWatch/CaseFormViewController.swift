@@ -9,6 +9,7 @@
 
 import UIKit
 import CoreData // API for interacting with database
+import PromiseKit // Implements promises
 
 enum SaveError: Error {
     case badCite
@@ -128,9 +129,10 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
         return nil
     }
     
-//    func getCase(_ c: Citation) -> Promise<CaseLaw> {
-//
-//    }
+    func getCase(_ c: Citation) -> Promise<CaseLaw> {
+        // TBA
+        return Promise { _ in }
+    }
     
     // Save case with volume v, page p
     func save(_ c: Citation) throws {
