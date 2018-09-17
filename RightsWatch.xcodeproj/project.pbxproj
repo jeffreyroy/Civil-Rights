@@ -21,6 +21,7 @@
 		85757E0520DB2ACB00216677 /* RightsWatchUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85757E0420DB2ACB00216677 /* RightsWatchUITests.swift */; };
 		85757E1320DB2AF500216677 /* CourtListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85757E1220DB2AF500216677 /* CourtListener.swift */; };
 		85757E1520DB2B1300216677 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85757E1420DB2B1300216677 /* Constants.swift */; };
+		85863F9A214DE7A200FF02F9 /* SiestaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85863F99214DE7A200FF02F9 /* SiestaService.swift */; };
 		85D08FFE20E6CF620000C3D1 /* UIElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D08FFD20E6CF620000C3D1 /* UIElements.swift */; };
 		85D0900220E6D9FD0000C3D1 /* CaseFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D0900120E6D9FD0000C3D1 /* CaseFormViewController.swift */; };
 		85D63969210A706D00557B6B /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 85D63968210A706D00557B6B /* Podfile */; };
@@ -64,6 +65,7 @@
 		85757E0620DB2ACB00216677 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85757E1220DB2AF500216677 /* CourtListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourtListener.swift; sourceTree = "<group>"; };
 		85757E1420DB2B1300216677 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		85863F99214DE7A200FF02F9 /* SiestaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiestaService.swift; sourceTree = "<group>"; };
 		85D08FFD20E6CF620000C3D1 /* UIElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIElements.swift; sourceTree = "<group>"; };
 		85D0900120E6D9FD0000C3D1 /* CaseFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseFormViewController.swift; sourceTree = "<group>"; };
 		85D63968210A706D00557B6B /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -101,9 +103,6 @@
 			isa = PBXGroup;
 			children = (
 				85D63968210A706D00557B6B /* Podfile */,
-				85757DE620DB2ACB00216677 /* DetailViewController.swift */,
-				854B3D5620E065C100FD6ACD /* Opinion+CoreDataClass.swift */,
-				854B3D5820E065C100FD6ACD /* CaseLaw+CoreDataClass.swift */,
 				85757DDE20DB2ACB00216677 /* RightsWatch */,
 				85757DF820DB2ACB00216677 /* RightsWatchTests */,
 				85757E0320DB2ACB00216677 /* RightsWatchUITests */,
@@ -126,17 +125,15 @@
 		85757DDE20DB2ACB00216677 /* RightsWatch */ = {
 			isa = PBXGroup;
 			children = (
+				85FBAEA3212A44EE00070408 /* Controllers */,
 				85757DDF20DB2ACB00216677 /* AppDelegate.swift */,
-				85757DE420DB2ACB00216677 /* MasterViewController.swift */,
-				85757DE820DB2ACB00216677 /* Main.storyboard */,
+				85FBAEA5212A455700070408 /* Models */,
+				85FBAEA4212A454000070408 /* Views */,
 				85757DEB20DB2ACB00216677 /* Assets.xcassets */,
-				85757DED20DB2ACB00216677 /* LaunchScreen.storyboard */,
 				85757DF020DB2ACB00216677 /* Info.plist */,
-				85757DE120DB2ACB00216677 /* RightsWatch.xcdatamodeld */,
 				85757E1220DB2AF500216677 /* CourtListener.swift */,
 				85757E1420DB2B1300216677 /* Constants.swift */,
-				85D08FFD20E6CF620000C3D1 /* UIElements.swift */,
-				85D0900120E6D9FD0000C3D1 /* CaseFormViewController.swift */,
+				85863F99214DE7A200FF02F9 /* SiestaService.swift */,
 			);
 			path = RightsWatch;
 			sourceTree = "<group>";
@@ -157,6 +154,36 @@
 				85757E0620DB2ACB00216677 /* Info.plist */,
 			);
 			path = RightsWatchUITests;
+			sourceTree = "<group>";
+		};
+		85FBAEA3212A44EE00070408 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				85757DE420DB2ACB00216677 /* MasterViewController.swift */,
+				85D0900120E6D9FD0000C3D1 /* CaseFormViewController.swift */,
+				85757DE620DB2ACB00216677 /* DetailViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		85FBAEA4212A454000070408 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				85757DE820DB2ACB00216677 /* Main.storyboard */,
+				85757DED20DB2ACB00216677 /* LaunchScreen.storyboard */,
+				85D08FFD20E6CF620000C3D1 /* UIElements.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		85FBAEA5212A455700070408 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				854B3D5620E065C100FD6ACD /* Opinion+CoreDataClass.swift */,
+				854B3D5820E065C100FD6ACD /* CaseLaw+CoreDataClass.swift */,
+				85757DE120DB2ACB00216677 /* RightsWatch.xcdatamodeld */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		AC4659BCF0CF910BD54DB704 /* Frameworks */ = {
@@ -354,6 +381,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85863F9A214DE7A200FF02F9 /* SiestaService.swift in Sources */,
 				85D0900220E6D9FD0000C3D1 /* CaseFormViewController.swift in Sources */,
 				85757DE320DB2ACB00216677 /* RightsWatch.xcdatamodeld in Sources */,
 				854B3D5E20E065C100FD6ACD /* CaseLaw+CoreDataClass.swift in Sources */,
