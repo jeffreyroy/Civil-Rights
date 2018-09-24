@@ -5,15 +5,16 @@
 //  Created by Jeffrey Roy on 9/15/18.
 //  Copyright © 2018 Jeffrey Roy. All rights reserved.
 //
+//  Defines classes to query CourtListener API
 
 import Foundation
 import Siesta
 
 // Siesta Services
 class CLAPI: Service {
-    init(baseURL: String) {
-        super.init(baseURL: baseURL)
-        
+    let url = "https://www.courtlistener.com/api/rest/v3"
+    init() {
+        super.init(baseURL: url)
         // Global default headers
         configure {
             $0.headers["Authorization"] = clKey
@@ -22,17 +23,28 @@ class CLAPI: Service {
 }
 
 class CLViewController: UIViewController, ResourceObserver {
-    let MyAPI = CLAPI(baseURL: "https://www.courtlistener.com/api/rest/v3")
-    var endpoint: String = ""  // Customize this
+    let myAPI = CLAPI()
+
     func resourceChanged(_ resource: Resource, event: ResourceEvent) {
         // Override this for individual controller
     }
     
-    func setAPI() {
-        MyAPI.resource(endpoint).addObserver(self)
+    func setAPI(_ endpoint: String, _ query: String? = nil) {
+        if let q = query {
+            myAPI.resource(endpoint).relative(q).addObserver(self)
+        }
+        else {
+            myAPI.resource(endpoint).addObserver(self)
+        }
     }
     
-    func getAPI() {
-        MyAPI.resource(endpoint).loadIfNeeded()
+    func getAPI(_ endpoint: String, _ query: String? = nil) {
+    
+        if let q = query {
+            myAPI.resource(endpoint).relative(q).loadIfNeeded()
+        }
+        else {
+            myAPI.resource(endpoint).loadIfNeeded()
+        }
     }
 }

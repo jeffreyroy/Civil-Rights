@@ -41,19 +41,18 @@ class DetailViewController: CLViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Set endpoint for testing purposes
-        endpoint = "/opinions/2812209/"
         self.configureView()
 //        self.displayHTML()
         print("Creating session...")
-        setAPI()  // Add resource listener
+        // Use set endpoint for testing purposes
+        setAPI("/opinions/2812209/")  // Add resource listener
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("Loading data...")
-        getAPI()  // Load resource
+        getAPI("/opinions/2812209/")  // Load resource
     }
     
     // MARK:  Siesta observer
