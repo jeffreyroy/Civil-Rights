@@ -159,6 +159,7 @@ class QuerySession {
                 }
                 catch let error as NSError {
                     print(error.localizedDescription)
+                    print("Network error!")
                 }
             }
             else {
