@@ -21,7 +21,13 @@ public class CaseLaw: NSManagedObject {
     
     // Display case citation
     override public var description: String {
-        return "\(t(usVol)) U.S. \(t(usPage)),  \(t(sctVol)) S.Ct. \(t(sctPage))"
+        if appellant != nil && appellee != nil {
+            return "\(appellant!) v \(appellee!)"
+        }
+        else if usVol > 0 {
+            return "\(t(usVol)) U.S. \(t(usPage))"
+        }
+        return "\(t(sctVol)) S.Ct. \(t(sctPage))"
     }
     
     // Replace nil values with blank

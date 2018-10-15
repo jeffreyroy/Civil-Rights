@@ -5,22 +5,17 @@
 //  Created by Jeffrey Roy on 6/20/18.
 //  Copyright © 2018 Jeffrey Roy. All rights reserved.
 //
+//  Detail view displays text of opinion
 
 import UIKit
 import Siesta
 
-
-class DetailViewController: CLViewController {
-    
+class DetailViewController: UIViewController, CLDelegate {
     var caseId: Int = 0
+    var observer: CLObserver?
 
     @IBOutlet weak var detailDescriptionLabel: UILabel!
-
-
     @IBOutlet weak var opinionView: UITextView!
-    
-    //    @IBOutlet weak var webDisplay: CaseDisplay!
-    
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
     func configureView() {
@@ -32,32 +27,45 @@ class DetailViewController: CLViewController {
         if let label = detailDescriptionLabel {
             label.text = detail.description
         }
-        caseId = Int(detail.clId)
+        caseId = Int(detail.id)
         if caseId > 0 {
             // TBA: Get opinion text from CL
         }
-
+    }
+    
+    private func endpoint() -> String? {
+        if caseId > 0 {
+            print("/opinions/\(caseId)/")
+            return "/opinions/\(caseId)/"
+        }
+        else {
+            print("No case data!")
+            opinionView.text = "No case data!"
+            opinionView.textColor = UIColor.red
+            return nil
+        }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureView()
-//        self.displayHTML()
         print("Creating session...")
-        // Use set endpoint for testing purposes
-        setAPI("/opinions/2812209/")  // Add resource listener
+        if let url = endpoint() {
+            observer = CLObserver(url) // Add resource listener
+            observer?.delegate = self
+        }
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("Loading data...")
-        getAPI("/opinions/2812209/")  // Load resource
+        observer?.load()
     }
     
     // MARK:  Siesta observer
-    override func resourceChanged(_ resource: Resource, event: ResourceEvent) {
+    func resourceChanged(_ resource: Resource) {
         if let text = resource.jsonDict["html_with_citations"] as? String {
+//            print(resource.jsonDict)
             displayOpinion(text)
         }
     }
@@ -67,34 +75,25 @@ class DetailViewController: CLViewController {
         loadingIndicator.stopAnimating()
     }
     
-    
-    func displayHTML() {
-        guard let detail = detailItem else {
-            return
-        }
-        let cl = QuerySession(self)
-        if detail.usVol > 0 && detail.usPage > 0 {
-            cl.getCaseByCite(detail.usVol, detail.usPage, true)
-        }
-        else if detail.sctVol > 0 && detail.sctPage > 0 {
-            cl.getCaseByCite(detail.sctVol, detail.sctPage, false)
-        }
-        else {
-            opinionView.text = "Case not found.  Check citation."
-        }
-    }
-    
-    
-
     override func  didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
-    var detailItem: CaseLaw? {
+    var detailItem: OpinionData? {
         didSet {
             // Update the view.
             configureView()
+        }
+    }
+    
+    // Segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showCitingCases" {
+            // Format detail view
+            let controller = (segue.destination as! UINavigationController).topViewController as! CiteViewController
+            controller.caseId = caseId
+            print(controller.caseId!)
         }
     }
 
