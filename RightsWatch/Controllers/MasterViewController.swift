@@ -9,6 +9,8 @@
 import UIKit
 import CoreData // API for interacting with database
 
+// Allow conversion of database data into opinion data
+// To simplify segue to opinion view
 extension OpinionData {
     init(_ c: CaseLaw) {
         id = Int(c.clId)
@@ -17,7 +19,6 @@ extension OpinionData {
 }
 
 class MasterViewController: UITableViewController, NSFetchedResultsControllerDelegate {
-
     // Controller for detailed view of single item
     var detailViewController: DetailViewController? = nil
     // Database interface
@@ -25,7 +26,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     var c: CaseLaw?
     var o: Opinion?
     var e: Event?
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,7 +90,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     }
 
     // MARK: - Table View
-
     // Return number of sections in table
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 0
@@ -138,7 +137,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     }
 
     // MARK: - Fetched results controller
-
     var fetchedResultsController: NSFetchedResultsController<CaseLaw> {
         if _fetchedResultsController != nil {
             return _fetchedResultsController!
@@ -205,6 +203,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
     }
+    
 
     /*
      // Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed.

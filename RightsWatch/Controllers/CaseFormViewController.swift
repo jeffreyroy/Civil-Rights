@@ -64,9 +64,6 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
         }
     }
     
-
-    
-    // MARK: Set up
     override func viewDidLoad() {
         super.viewDidLoad()
         //  Set up picker view
@@ -80,6 +77,7 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
 //        }
     }
     
+    // MARK: picker view
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -134,25 +132,16 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
 
     // Handle server response
     func resourceChanged(_ resource: Resource) {
+        // Verify that response includes case info
         guard let data = resource.latestData?.content  else {
             displayMessage("Verifying, please wait...")
             return
         }
-        // Parse JSON
-        let json = JSON(data)
-        print(json)
-        let caseList = json["results"]
-        guard caseList.count != 0 else {
-            if currentCitation?.usReporter == false {
-                displayError("Try using US Reporter instead")
-            }
-            else {
-                displayError("Citation not found in database")
-            }
+        guard let caseInfo = caseDataFromJSON(JSON(data)) else {
             return
         }
-        print(caseList[0])
-        let caseInfo = CaseData(caseList[0])
+//        print(caseInfo)
+        // Display case info
         if let partyList = caseInfo.parties() {
             displayCaseName(partyList)
         }
@@ -165,6 +154,22 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
         else {
             displayError("Bad citation data")
         }
+    }
+    
+    // Extract case data from JSON response
+    func caseDataFromJSON(_ json: JSON) -> CaseData? {
+        let caseList = json["results"]
+        guard caseList.count != 0 else {
+            if currentCitation?.usReporter == false {
+                displayError("Try using US Reporter instead")
+            }
+            else {
+                displayError("Citation not found in database")
+            }
+            return nil
+        }
+//        print(caseList[0])
+        return CaseData(caseList[0])
     }
     
     func displayCaseName(_ partyList: [String]) {
@@ -186,7 +191,6 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
         catch {
             displayError("Unable to save to database")
         }
-
     }
     
     func validate(_ n: NumberField) -> Int? {
@@ -239,9 +243,10 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
             caseLaw.appellant = appellant
         }
         if let appellee = c.party(1) {
-            caseLaw.appellant = appellee
+            caseLaw.appellee = appellee
         }
         caseLaw.timestamp = Date()
+        print(caseLaw.appellant)
 
         // Save to database
         do {

@@ -67,7 +67,7 @@
                     <toolbarItems>
                         <barButtonItem title="Item" id="mgY-4W-lBQ"/>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" title="Title" id="v8h-w1-ysN">
+                    <navigationItem key="navigationItem" title="Opinion" id="v8h-w1-ysN">
                         <barButtonItem key="rightBarButtonItem" title="Cited In..." id="u7s-vE-zsO">
                             <connections>
                                 <segue destination="ZdO-s8-RpQ" kind="show" identifier="showCitingCases" id="nFz-dJ-XQa"/>
@@ -333,6 +333,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="nFz-dJ-XQa"/>
         <segue reference="WP7-4p-2TY"/>
     </inferredMetricsTieBreakers>
 </document>
