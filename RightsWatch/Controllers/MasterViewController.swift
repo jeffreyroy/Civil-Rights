@@ -9,6 +9,13 @@
 import UIKit
 import CoreData // API for interacting with database
 
+extension OpinionData {
+    init(_ c: CaseLaw) {
+        id = Int(c.clId)
+        title = c.description
+    }
+}
+
 class MasterViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
     // Controller for detailed view of single item
@@ -67,7 +74,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     }
 
     // MARK: - Segues
-    // Seugue to detail view
+    // Segue to detail view
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail" {
             if let indexPath = tableView.indexPathForSelectedRow {
@@ -75,7 +82,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
                 let object = fetchedResultsController.object(at: indexPath)
                 // Format detail view
                 let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
-                controller.detailItem = object
+                controller.detailItem = OpinionData(object)
                 controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
                 controller.navigationItem.leftItemsSupplementBackButton = true
             }

@@ -9,125 +9,27 @@
 
 import UIKit
 import CoreData // API for interacting with database
-import Siesta // Implements promises
-import SwiftyJSON
-// TBA:  Use Siests instead of promises?
+import Siesta // Simplifies web requests
+import SwiftyJSON // Handles JSON data
 
 enum SaveError: Error {
     case badCite
     case notFound
 }
 
-// MARK: Structures to hold basic case citation info
-struct Citation {
-    var volume: Int
-    var page: Int
-    var usReporter: Bool  // True if U.S., false if S.Ct.
-    var id: Int?  // CourtListener id, if it exists
-    var appellant: String?
-    var appellee: String?
-
-    // Verify citation form when initializing, throw error if
-    // not a valid citation
-    init(_ v: Int?, _ p: Int?, _ us: Bool = true) throws {
-        guard v != nil && p != nil else {
-            throw SaveError.badCite
-        }
-        guard v! > 0 && p! > 0 else {
-            throw SaveError.badCite
-        }
-        self.volume = v!
-        self.page = p!
-        self.usReporter = us
-    }
-    
-    func title() -> String? {
-        if appellant != nil && appellee != nil {
-            return appellant! + " v " + appellee!
-        }
-        else { return nil }
-    }
-}
-
-struct CaseData {
-    var id: Int?
-    var federalCiteOne: String?
-    var caseName: String?
-    init(_ json: JSON) {
-        self.federalCiteOne = json["federal_cite_one"].stringValue
-        self.caseName = json["case_name"].stringValue
-        self.id = json["id"].int
-    }
-    
-    // Split string using a string as separator
-    private func split(_ text: String, _ divider: String) -> [String] {
-        let separator: Character = "%"
-        let separable = text.replacingOccurrences(of: divider, with: String(separator))
-        return separable.split(separator: separator).map { String($0) }
-    }
-    
-    // Separate name into list of parties
-    func parties() -> [String]? {
-        let versus = " v. "
-        // Check to make sure name is in correct form
-        guard let name = caseName else {
-            print("No case name")
-            return nil
-        }
-        guard let _ = name.range(of: versus) else {
-            print("Can't parse case name")
-            return nil
-        }
-        // Separate name and return list of parties
-        return split(caseName!, versus)
-    }
-    
-    // Return a specific party (0 = appellant, 1 = appellee)
-    func party(_ p: Int) -> String? {
-        guard let partyList = parties() else {
-            return nil
-        }
-        guard partyList.count > p else {
-            return nil
-        }
-        return partyList[p]
-    }
-    
-    // Extract page and volume from citation
-    func cite() -> Citation? {
-        var citeData: [String]
-        var us: Bool
-        guard let citation = federalCiteOne else {
-            print("No citation")
-            return nil
-        }
-        let usSplit = split(citation, " U.S. ")
-        let sCtSplit = split(citation, " S. Ct. ")
-        if usSplit.count == 2 { citeData = usSplit; us = true }
-        else if sCtSplit.count == 2 { citeData = sCtSplit; us = false }
-        else { return nil }
-        do {
-            return try Citation(Int(citeData[0]), Int(citeData[1]), us)
-        }
-        catch {
-            print(error)
-            return nil
-        }
-    }
-    
-}
-
 // MARK: Controller for case form view
-class CaseFormViewController: CLViewController, UIPickerViewDataSource, UIPickerViewDelegate {
-   
+class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, CLDelegate {
+
     // MARK: Variables
     weak var table: MasterViewController?
+    var observer: CLObserver?
     var usPage: Int?
     var usVol: Int?
     var sctPage: Int?
     var sctVol: Int?
     var usReporter: Bool = true
     var currentCitation: Citation?
+    var currentCase: CaseData?
     let errorColor = UIColor.red
     let goodColor = UIColor.blue
     let reporters = ["U.S.", "S. Ct."]  // Supreme Court case reporters
@@ -157,7 +59,7 @@ class CaseFormViewController: CLViewController, UIPickerViewDataSource, UIPicker
     }
     
     @IBAction func addButtonPressed(_ sender: Any) {
-        if let c = currentCitation {
+        if let c = currentCase {
             addItem(c)
         }
     }
@@ -172,12 +74,11 @@ class CaseFormViewController: CLViewController, UIPickerViewDataSource, UIPicker
         self.reporterPicker.dataSource = self
         reporterPicker.frame.size.width = pickerWidth
         //  Set up Siesta service
-        let caseURL = myAPI.url + endpoint + "*"
+//        let caseURL = myAPI.url + endpoint + "*"
 //        myAPI.configureTransformer(caseURL) {
 //            CaseData($0.content)
 //        }
     }
-    
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -220,10 +121,11 @@ class CaseFormViewController: CLViewController, UIPickerViewDataSource, UIPicker
         usPage = validate(pageField)
         do {
             let c = try Citation(usVol, usPage, usReporter)
+            currentCitation = c
             let query = caseQuery(c)
-            setAPI(endpoint, query)
-            getAPI(endpoint, query)
-
+            observer = CLObserver(endpoint, query)
+            observer?.delegate = self
+            observer?.load()
         }
         catch {
             displayError("Invalid citation")
@@ -231,16 +133,22 @@ class CaseFormViewController: CLViewController, UIPickerViewDataSource, UIPicker
     }
 
     // Handle server response
-    override func resourceChanged(_ resource: Resource, event: ResourceEvent) {
+    func resourceChanged(_ resource: Resource) {
         guard let data = resource.latestData?.content  else {
             displayMessage("Verifying, please wait...")
             return
         }
         // Parse JSON
         let json = JSON(data)
+        print(json)
         let caseList = json["results"]
         guard caseList.count != 0 else {
-            displayError("No cases listed in results?!")
+            if currentCitation?.usReporter == false {
+                displayError("Try using US Reporter instead")
+            }
+            else {
+                displayError("Citation not found in database")
+            }
             return
         }
         print(caseList[0])
@@ -250,13 +158,13 @@ class CaseFormViewController: CLViewController, UIPickerViewDataSource, UIPicker
         }
         if let citation = caseInfo.cite() {
             currentCitation = citation
+            currentCase = caseInfo
             self.addButton.isEnabled = true
             displayMessage("Case verified!", goodColor)
         }
         else {
             displayError("Bad citation data")
         }
-
     }
     
     func displayCaseName(_ partyList: [String]) {
@@ -271,7 +179,7 @@ class CaseFormViewController: CLViewController, UIPickerViewDataSource, UIPicker
     
     // Save item to database
     // TBA:  Need to allow S.Ct. citation as alternative to U.S.
-    func addItem(_ c: Citation) {
+    func addItem(_ c: CaseData) {
         do {
             try save(c)
         }
@@ -288,25 +196,24 @@ class CaseFormViewController: CLViewController, UIPickerViewDataSource, UIPicker
         return nil
     }
     
-//    func getCase(_ c: Citation) -> Promise<CaseLaw> {
-//        // TBA
-//        return Promise { _ in }
-//    }
-    
     func caseQuery(_ c: Citation) -> String {
         let reporter = c.usReporter ? "U.S." : "S.+Ct."
         return "?federal_cite_one=\(c.volume)+\(reporter)+\(c.page)"
     }
     
     // Save case with volume v, page p
-    func save(_ c: Citation) throws {
+    func save(_ c: CaseData) throws {
         
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
                 return
         }
-        let v = c.volume
-        let p = c.page
+        guard let cite = c.cite() else {
+            displayError("Invalid citation")
+            throw SaveError.badCite
+        }
+        let v = cite.volume
+        let p = cite.page
         // This check should be unnecessary now
         guard v > 0 && p > 0 else {
             displayError("Invalid citation")
@@ -317,7 +224,7 @@ class CaseFormViewController: CLViewController, UIPickerViewDataSource, UIPicker
         let managedContext: NSManagedObjectContext =
             appDelegate.persistentContainer.viewContext
         let caseLaw = CaseLaw(context: managedContext)
-        if c.usReporter {
+        if cite.usReporter {
             caseLaw.usVol = Int16(v)
             caseLaw.usPage = Int16(p)
         }
@@ -328,8 +235,13 @@ class CaseFormViewController: CLViewController, UIPickerViewDataSource, UIPicker
         if let clId = c.id {
             caseLaw.clId = Int32(clId)
         }
+        if let appellant = c.party(0) {
+            caseLaw.appellant = appellant
+        }
+        if let appellee = c.party(1) {
+            caseLaw.appellant = appellee
+        }
         caseLaw.timestamp = Date()
-
 
         // Save to database
         do {
@@ -356,6 +268,8 @@ class CaseFormViewController: CLViewController, UIPickerViewDataSource, UIPicker
     func clearForm() {
         addButton.isEnabled = false
         submitButton.isEnabled = true
+        currentCase = nil
+        currentCitation = nil
     }
     
 }

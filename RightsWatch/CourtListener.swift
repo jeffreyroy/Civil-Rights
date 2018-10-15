@@ -6,6 +6,7 @@
 //  Copyright © 2018 Jeffrey Roy. All rights reserved.
 //
 //  Classes to query CourtListener api and interpret response
+//  Note:  Obsolete now that we're using Siesta
 
 import Foundation
 
