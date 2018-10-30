@@ -71,7 +71,7 @@ class CiteViewController: UITableViewController, CLDelegate {
         // Update the user interface for the detail item.
         guard let label = titleLabel else { return }
         guard let id = caseId else { return }
-        label.title = "Cases citing \(id)"
+//        label.title = "Cases citing \(id)"
     }
 
     override func viewDidLoad() {
@@ -173,7 +173,8 @@ class CiteViewController: UITableViewController, CLDelegate {
                 let object = caseList![indexPath.row]
                 // Format detail view
                 let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
-                controller.caseId = object.id
+                controller.detailItem = object
+//                controller.caseId = object.id
                 controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
                 controller.navigationItem.leftItemsSupplementBackButton = true
             }

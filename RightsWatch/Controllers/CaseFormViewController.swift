@@ -30,6 +30,7 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
     var usReporter: Bool = true
     var currentCitation: Citation?
     var currentCase: CaseData?
+    var currentCaseId: Int?
     let errorColor = UIColor.red
     let goodColor = UIColor.blue
     let reporters = ["U.S.", "S. Ct."]  // Supreme Court case reporters
@@ -70,11 +71,10 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
         self.reporterPicker.delegate = self
         self.reporterPicker.dataSource = self
         reporterPicker.frame.size.width = pickerWidth
-        //  Set up Siesta service
-//        let caseURL = myAPI.url + endpoint + "*"
-//        myAPI.configureTransformer(caseURL) {
-//            CaseData($0.content)
-//        }
+        if currentCaseId != nil {
+            displayError("Verifying item...")
+            verifyItem()
+        }
     }
     
     // MARK: picker view
@@ -101,7 +101,7 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
     }
     
     // Display result messages to user
-    func displayMessage(_ message: String, _ color: UIColor = UIColor.black) {
+    func displayMessage(_ message: String, _ color: UIColor = UIColor.blue) {
         errorLabel.textColor = color
         errorLabel.text = message
     }
@@ -112,16 +112,22 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
         submitButton.isEnabled = true
     }
     
-    // Submit case for verification and return clid, if found
+    // Submit case for verification
     func verifyItem() {
         submitButton.isEnabled = false
+        waitIndicator.startAnimating()
         usVol = validate(volField)
         usPage = validate(pageField)
         do {
-            let c = try Citation(usVol, usPage, usReporter)
-            currentCitation = c
-            let query = caseQuery(c)
-            observer = CLObserver(endpoint, query)
+            if let id = currentCaseId {
+                observer = CLObserver(endpoint + "\(id)/")
+            }
+            else {
+                let c = try Citation(usVol, usPage, usReporter)
+                currentCitation = c
+                let query = caseQuery(c)
+                observer = CLObserver(endpoint, query)
+            }
             observer?.delegate = self
             observer?.load()
         }
@@ -140,6 +146,7 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
         guard let caseInfo = caseDataFromJSON(JSON(data)) else {
             return
         }
+        waitIndicator.stopAnimating()
 //        print(caseInfo)
         // Display case info
         if let partyList = caseInfo.parties() {
@@ -157,9 +164,15 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
     }
     
     // Extract case data from JSON response
+    // TBA: Move to caseData?
     func caseDataFromJSON(_ json: JSON) -> CaseData? {
+        // If only one case, return it
+        if json["id"].intValue == currentCaseId {
+            return CaseData(json)
+        }
+        // Otherwise, check for list of cases
         let caseList = json["results"]
-        guard caseList.count != 0 else {
+        if caseList.count == 0  {
             if currentCitation?.usReporter == false {
                 displayError("Try using US Reporter instead")
             }
@@ -169,6 +182,7 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
             return nil
         }
 //        print(caseList[0])
+        // Return first case in list
         return CaseData(caseList[0])
     }
     
@@ -205,53 +219,26 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
         return "?federal_cite_one=\(c.volume)+\(reporter)+\(c.page)"
     }
     
-    // Save case with volume v, page p
+    // Save case to database
     func save(_ c: CaseData) throws {
-        
+        // Get managed object context to store changes to database
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
                 return
         }
-        guard let cite = c.cite() else {
-            displayError("Invalid citation")
-            throw SaveError.badCite
-        }
-        let v = cite.volume
-        let p = cite.page
-        // This check should be unnecessary now
-        guard v > 0 && p > 0 else {
-            displayError("Invalid citation")
-            throw SaveError.badCite
-        }
-        
-        // Get managed object context to store changes to database
         let managedContext: NSManagedObjectContext =
             appDelegate.persistentContainer.viewContext
         let caseLaw = CaseLaw(context: managedContext)
-        if cite.usReporter {
-            caseLaw.usVol = Int16(v)
-            caseLaw.usPage = Int16(p)
+        // Import case data
+        do {
+            try caseLaw.importData(c)
+        } catch let error as NSError {
+            displayError("Invalid citation.")
+            print("Could not save. \(error), \(error.userInfo)")
         }
-        else {
-            caseLaw.sctVol = Int16(v)
-            caseLaw.sctPage = Int16(p)
-        }
-        if let clId = c.id {
-            caseLaw.clId = Int32(clId)
-        }
-        if let appellant = c.party(0) {
-            caseLaw.appellant = appellant
-        }
-        if let appellee = c.party(1) {
-            caseLaw.appellee = appellee
-        }
-        caseLaw.timestamp = Date()
-        print(caseLaw.appellant)
-
         // Save to database
         do {
             try toSave(managedContext)
-            
         } catch let error as NSError {
             displayError("Could not save.")
             print("Could not save. \(error), \(error.userInfo)")
@@ -262,10 +249,7 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
         try managedContext.save()
         displayMessage("Item added.", goodColor)
         clearForm()
-        
         if let tableController = table {
-            //                print(tableController)
-            //                tableController.people.append(caseLaw)
             tableController.tableView.reloadData()
         }
     }

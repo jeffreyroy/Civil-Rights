@@ -10,9 +10,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="Georgia.ttf">
-            <string>Georgia</string>
-        </array>
         <array key="TimesNewRoman.ttf">
             <string>TimesNewRomanPSMT</string>
         </array>
@@ -43,19 +40,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" pagingEnabled="YES" editable="NO" text="Loading case text..." textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SBX-qD-jXP">
-                                <rect key="frame" x="20" y="115" width="339" height="532"/>
+                                <rect key="frame" x="20" y="72" width="339" height="575"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" spellCheckingType="no"/>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lZ9-tV-j1T">
-                                <rect key="frame" x="80" y="79" width="213" height="28"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Georgia" family="Georgia" pointSize="24"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="qzk-E4-eAA">
                                 <rect key="frame" x="334" y="80" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -68,17 +58,20 @@
                         <barButtonItem title="Item" id="mgY-4W-lBQ"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Opinion" id="v8h-w1-ysN">
-                        <barButtonItem key="rightBarButtonItem" title="Cited In..." id="u7s-vE-zsO">
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="u7s-vE-zsO">
                             <connections>
+                                <action selector="citeAction:" destination="JEX-9P-axG" id="FtO-d9-Ptf"/>
                                 <segue destination="ZdO-s8-RpQ" kind="show" identifier="showCitingCases" id="nFz-dJ-XQa"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="detailDescriptionLabel" destination="lZ9-tV-j1T" id="3kP-pf-bnL"/>
+                        <outlet property="citeButton" destination="u7s-vE-zsO" id="gX6-AM-l02"/>
                         <outlet property="loadingIndicator" destination="qzk-E4-eAA" id="TFM-x2-gHM"/>
+                        <outlet property="navigationBar" destination="v8h-w1-ysN" id="YQf-QZ-n3h"/>
                         <outlet property="opinionView" destination="SBX-qD-jXP" id="7rx-nm-oPD"/>
+                        <segue destination="RW0-0e-cYo" kind="show" identifier="addCaseSegue" id="I8E-Dm-T8P"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>
@@ -223,7 +216,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="(use U.S. Reporter if available)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D3g-4E-7fg">
-                                <rect key="frame" x="22" y="213" width="323" height="21"/>
+                                <rect key="frame" x="22" y="213" width="284" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -242,10 +235,6 @@
                                 <rect key="frame" x="99" y="234" width="49" height="47"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             </pickerView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="D1i-TV-MbG">
-                                <rect key="frame" x="311" y="181" width="20" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </activityIndicatorView>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Page" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Xk6-Hc-sf5" customClass="NumberField" customModule="RightsWatch" customModuleProvider="target">
                                 <rect key="frame" x="174" y="242" width="73" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -293,6 +282,10 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="D1i-TV-MbG">
+                                <rect key="frame" x="325" y="214" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="5IP-Pr-ens"/>
@@ -333,7 +326,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="nFz-dJ-XQa"/>
-        <segue reference="WP7-4p-2TY"/>
+        <segue reference="6S0-TO-JiA"/>
+        <segue reference="I8E-Dm-T8P"/>
     </inferredMetricsTieBreakers>
 </document>
