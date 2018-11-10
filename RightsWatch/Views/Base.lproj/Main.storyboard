@@ -144,6 +144,58 @@
             </objects>
             <point key="canvasLocation" x="-856" y="-330"/>
         </scene>
+        <!--Panel View Controller-->
+        <scene sceneID="cGD-fW-py4">
+            <objects>
+                <viewController id="erv-zf-M7y" userLabel="Panel View Controller" customClass="PanelViewController" customModule="RightsWatch" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="luT-Nv-bAw">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Control Panel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4CB-xQ-PVz">
+                                <rect key="frame" x="98" y="90" width="178" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wft-8D-Yqr">
+                                <rect key="frame" x="98" y="174" width="178" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="0.047007538600000003" blue="0.022991762799999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Reset Database">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="resetButtonPressed:" destination="erv-zf-M7y" eventType="touchUpInside" id="qiO-CY-TQu"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fot-qe-hjk">
+                                <rect key="frame" x="98" y="261" width="178" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Import Cases">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="importButtonPressed:" destination="erv-zf-M7y" eventType="touchUpInside" id="0lu-F2-5NB"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <gestureRecognizers/>
+                        <viewLayoutGuide key="safeArea" id="heH-Ln-ROy"/>
+                    </view>
+                    <connections>
+                        <outlet property="resetButton" destination="wft-8D-Yqr" id="wGb-Jw-Onh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="i6T-5d-IxE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2160.8000000000002" y="-627.4362818590705"/>
+        </scene>
         <!--Master-->
         <scene sceneID="smW-Zh-WAh">
             <objects>
@@ -288,7 +340,11 @@
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
                         <viewLayoutGuide key="safeArea" id="5IP-Pr-ens"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="zgV-qZ-Ib0" appends="YES" id="shY-n3-fAg"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="addButton" destination="MdU-Fl-Xmm" id="SUC-YD-PE0"/>
@@ -302,9 +358,16 @@
                         <outlet property="vLabel" destination="XGu-3A-7VX" id="pLb-rj-9M6"/>
                         <outlet property="volField" destination="yNk-Jt-fTw" id="0u3-My-dZZ"/>
                         <outlet property="waitIndicator" destination="D1i-TV-MbG" id="M3o-6D-Era"/>
+                        <segue destination="erv-zf-M7y" kind="show" identifier="panelSegue" id="lCO-Fi-8X4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mOi-Ke-v94" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <screenEdgePanGestureRecognizer delaysTouchesBegan="YES" minimumNumberOfTouches="1" maximumNumberOfTouches="1" id="zgV-qZ-Ib0">
+                    <rectEdge key="edges" right="YES"/>
+                    <connections>
+                        <action selector="swipeLeft:" destination="RW0-0e-cYo" id="uYT-YQ-dWl"/>
+                    </connections>
+                </screenEdgePanGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1453.5999999999999" y="-627.4362818590705"/>
         </scene>
@@ -326,7 +389,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="6S0-TO-JiA"/>
-        <segue reference="I8E-Dm-T8P"/>
+        <segue reference="Tll-UG-LXB"/>
+        <segue reference="Pfr-TL-3a2"/>
     </inferredMetricsTieBreakers>
 </document>

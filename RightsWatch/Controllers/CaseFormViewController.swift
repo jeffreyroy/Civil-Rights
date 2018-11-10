@@ -21,6 +21,7 @@ enum SaveError: Error {
 class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, CLDelegate {
 
     // MARK: Variables
+    var active: Bool = true
     weak var table: MasterViewController?
     var observer: CLObserver?
     var usPage: Int?
@@ -38,6 +39,11 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
     let pickerWidth = CGFloat(50)
     let endpoint = "/clusters/"  // CourtListener API endpoint for case data
 
+    @IBAction func swipeLeft(_ sender: UIScreenEdgePanGestureRecognizer) {
+        segueRight()
+        print("swipe detected!")
+
+    }
     // UI references
     @IBOutlet weak var someView: UIView!
     @IBOutlet weak var errorLabel: UILabel!
@@ -75,6 +81,11 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
             displayError("Verifying item...")
             verifyItem()
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        active = true
     }
     
     // MARK: picker view
@@ -147,7 +158,6 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
             return
         }
         waitIndicator.stopAnimating()
-//        print(caseInfo)
         // Display case info
         if let partyList = caseInfo.parties() {
             displayCaseName(partyList)
@@ -164,7 +174,6 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
     }
     
     // Extract case data from JSON response
-    // TBA: Move to caseData?
     func caseDataFromJSON(_ json: JSON) -> CaseData? {
         // If only one case, return it
         if json["id"].intValue == currentCaseId {
@@ -181,7 +190,6 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
             }
             return nil
         }
-//        print(caseList[0])
         // Return first case in list
         return CaseData(caseList[0])
     }
@@ -259,6 +267,14 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
         submitButton.isEnabled = true
         currentCase = nil
         currentCitation = nil
+    }
+    
+    func segueRight() {
+        if active {
+            performSegue(withIdentifier: "panelSegue", sender: self)
+            active = false
+        }
+
     }
     
 }

@@ -21,11 +21,14 @@
 		85757E0520DB2ACB00216677 /* RightsWatchUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85757E0420DB2ACB00216677 /* RightsWatchUITests.swift */; };
 		85757E1320DB2AF500216677 /* CourtListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85757E1220DB2AF500216677 /* CourtListener.swift */; };
 		85757E1520DB2B1300216677 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85757E1420DB2B1300216677 /* Constants.swift */; };
+		8579DB8C2196167F00361C76 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8579DB8B2196167F00361C76 /* DataManager.swift */; };
+		8579DB8E219619E500361C76 /* CSVReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8579DB8D219619E500361C76 /* CSVReader.swift */; };
 		85863F9A214DE7A200FF02F9 /* SiestaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85863F99214DE7A200FF02F9 /* SiestaService.swift */; };
 		85863F9C215C68A800FF02F9 /* CiteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85863F9B215C68A800FF02F9 /* CiteViewController.swift */; };
 		85863F9E215C6C2000FF02F9 /* CaseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85863F9D215C6C2000FF02F9 /* CaseData.swift */; };
 		85D08FFE20E6CF620000C3D1 /* UIElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D08FFD20E6CF620000C3D1 /* UIElements.swift */; };
 		85D0900220E6D9FD0000C3D1 /* CaseFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D0900120E6D9FD0000C3D1 /* CaseFormViewController.swift */; };
+		85D391E521977A2B00CF2E74 /* PanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D391E421977A2B00CF2E74 /* PanelViewController.swift */; };
 		85D63969210A706D00557B6B /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 85D63968210A706D00557B6B /* Podfile */; };
 /* End PBXBuildFile section */
 
@@ -67,11 +70,14 @@
 		85757E0620DB2ACB00216677 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85757E1220DB2AF500216677 /* CourtListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourtListener.swift; sourceTree = "<group>"; };
 		85757E1420DB2B1300216677 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		8579DB8B2196167F00361C76 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		8579DB8D219619E500361C76 /* CSVReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVReader.swift; sourceTree = "<group>"; };
 		85863F99214DE7A200FF02F9 /* SiestaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiestaService.swift; sourceTree = "<group>"; };
 		85863F9B215C68A800FF02F9 /* CiteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CiteViewController.swift; sourceTree = "<group>"; };
 		85863F9D215C6C2000FF02F9 /* CaseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseData.swift; sourceTree = "<group>"; };
 		85D08FFD20E6CF620000C3D1 /* UIElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIElements.swift; sourceTree = "<group>"; };
 		85D0900120E6D9FD0000C3D1 /* CaseFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseFormViewController.swift; sourceTree = "<group>"; };
+		85D391E421977A2B00CF2E74 /* PanelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelViewController.swift; sourceTree = "<group>"; };
 		85D63968210A706D00557B6B /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		8E3C1DCBD0B5CB9E6830C660 /* Pods-RightsWatch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RightsWatch.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RightsWatch/Pods-RightsWatch.debug.xcconfig"; sourceTree = "<group>"; };
 		FEAE8797D533B7C093993242 /* Pods-RightsWatch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RightsWatch.release.xcconfig"; path = "Pods/Target Support Files/Pods-RightsWatch/Pods-RightsWatch.release.xcconfig"; sourceTree = "<group>"; };
@@ -168,6 +174,7 @@
 				85757DE620DB2ACB00216677 /* DetailViewController.swift */,
 				85863F9B215C68A800FF02F9 /* CiteViewController.swift */,
 				85863F99214DE7A200FF02F9 /* SiestaService.swift */,
+				85D391E421977A2B00CF2E74 /* PanelViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -188,6 +195,8 @@
 				854B3D5620E065C100FD6ACD /* Opinion+CoreDataClass.swift */,
 				854B3D5820E065C100FD6ACD /* CaseLaw+CoreDataClass.swift */,
 				85757DE120DB2ACB00216677 /* RightsWatch.xcdatamodeld */,
+				8579DB8B2196167F00361C76 /* DataManager.swift */,
+				8579DB8D219619E500361C76 /* CSVReader.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -391,7 +400,10 @@
 			files = (
 				85863F9A214DE7A200FF02F9 /* SiestaService.swift in Sources */,
 				85D0900220E6D9FD0000C3D1 /* CaseFormViewController.swift in Sources */,
+				8579DB8E219619E500361C76 /* CSVReader.swift in Sources */,
+				85D391E521977A2B00CF2E74 /* PanelViewController.swift in Sources */,
 				85757DE320DB2ACB00216677 /* RightsWatch.xcdatamodeld in Sources */,
+				8579DB8C2196167F00361C76 /* DataManager.swift in Sources */,
 				854B3D5E20E065C100FD6ACD /* CaseLaw+CoreDataClass.swift in Sources */,
 				854B3D5C20E065C100FD6ACD /* Opinion+CoreDataClass.swift in Sources */,
 				85757DE020DB2ACB00216677 /* AppDelegate.swift in Sources */,
