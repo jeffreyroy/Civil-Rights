@@ -20,8 +20,13 @@ struct OpinionData {
         id = i
         title = String(i)
     }
+    // Return true if it's a Supreme Court case
+    public var sct: Bool {
+        return id < 200000
+    }
+    // Description for table view
+    // Return title if it exists, otherwise id
     public var description: String {
-        // Return title if it exists, otherwise id
         return title != nil ? title! : String(id)
     }
 }

@@ -20,7 +20,9 @@ class DataObserver: CLObserver {
 //            print(resource.latestError)
             return
         }
-        let absoluteURL = JSON(data)["absolute_url"].stringValue
+        let json = JSON(data)
+        print(json.dictionary?.keys)
+        let absoluteURL = json["absolute_url"].stringValue
         // Extract case title from response
         guard let title = name(from: absoluteURL)  else {
             return

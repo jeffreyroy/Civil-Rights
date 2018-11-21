@@ -30,8 +30,8 @@ public extension Array where Element: Hashable {
 // WordList class to import words from file
 class CSVReader {
     var parsed: Bool = false
-    let dir = try? FileManager.default.url(for: .documentDirectory,
-                                           in: .userDomainMask, appropriateFor: nil, create: true)
+    let bundle = Bundle.main  // Project directory
+
     var parsedData: [[String]] = []
     init(_ fileName: String) {
         guard let inString = readFrom(fileName) else {
@@ -43,14 +43,16 @@ class CSVReader {
     
     // Try to read data from file
     func readFrom(_ fileName: String) -> String? {
+
         print("Reading \(fileName)...")
         var fileContents = ""
-        guard let fileURL = dir?.appendingPathComponent(fileName).appendingPathExtension("csv") else {
+
+        guard let fileURL = bundle.path(forResource: fileName, ofType: "csv") else {
             print("Can't find file \(fileName)")
             return nil
         }
         do {
-            fileContents = try String(contentsOf: fileURL, encoding: .utf8)
+            fileContents = try String(contentsOfFile: fileURL, encoding: .utf8)
         } catch {
             print("Failed reading from URL: \(fileURL), Error: " + error.localizedDescription)
         }

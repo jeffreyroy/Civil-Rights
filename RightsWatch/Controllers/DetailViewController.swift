@@ -13,6 +13,12 @@ import Siesta
 class DetailViewController: UIViewController, CLDelegate {
     var caseId: Int = 0
     var observer: CLObserver?
+    var detailItem: OpinionData? {
+        didSet {
+            // Update the view.
+            configureView()
+        }
+    }
 
     @IBOutlet weak var opinionView: UITextView!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
@@ -71,7 +77,7 @@ class DetailViewController: UIViewController, CLDelegate {
     
     // MARK:  Siesta observer
     func resourceChanged(_ resource: Resource) {
-        print(resource.jsonDict)
+        print(resource.jsonDict.keys)
         if let text = resource.jsonDict["html_with_citations"] as? String {
 
             displayOpinion(text)
@@ -81,6 +87,7 @@ class DetailViewController: UIViewController, CLDelegate {
     }
     
     func displayOpinion(_ text: String) {
+//        opinionView.setZoomScale(4.0, animated: false)
         opinionView.attributedText = text.htmlToAttributedString
         loadingIndicator.stopAnimating()
     }
@@ -90,15 +97,19 @@ class DetailViewController: UIViewController, CLDelegate {
         // Dispose of any resources that can be recreated.
     }
 
-    var detailItem: OpinionData? {
-        didSet {
-            // Update the view.
-            configureView()
-        }
-    }
+
     
     // Action alert
     func displayActionSheet() {
+        guard detailItem?.sct == true else {
+            return
+        }
+        
+        let dm = DataManager()
+        guard dm.fetchCase(caseId) == nil else {
+            return
+        }
+        
         
         let optionMenu = UIAlertController(title: nil, message: "Add case to database?", preferredStyle: .actionSheet)
         
@@ -135,7 +146,6 @@ class DetailViewController: UIViewController, CLDelegate {
         }
     }
     
-
 }
 
 

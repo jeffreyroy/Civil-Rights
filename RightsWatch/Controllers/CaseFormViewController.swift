@@ -125,6 +125,7 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
     
     // Submit case for verification
     func verifyItem() {
+        self.view.endEditing(true)
         submitButton.isEnabled = false
         waitIndicator.startAnimating()
         usVol = validate(volField)
