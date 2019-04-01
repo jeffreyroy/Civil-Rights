@@ -156,6 +156,7 @@ class CaseFormViewController: UIViewController, UIPickerViewDataSource, UIPicker
             return
         }
         guard let caseInfo = caseDataFromJSON(JSON(data)) else {
+            displayMessage("No case info recieved.")
             return
         }
         waitIndicator.stopAnimating()

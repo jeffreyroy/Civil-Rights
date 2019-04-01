@@ -34,6 +34,7 @@
 		85D391E521977A2B00CF2E74 /* PanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D391E421977A2B00CF2E74 /* PanelViewController.swift */; };
 		85D391E721978E3600CF2E74 /* SCDB.csv in Resources */ = {isa = PBXBuildFile; fileRef = 85D391E621978E3600CF2E74 /* SCDB.csv */; };
 		85D63969210A706D00557B6B /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 85D63968210A706D00557B6B /* Podfile */; };
+		85F76D04224961D3007C65C6 /* Logo white.png in Resources */ = {isa = PBXBuildFile; fileRef = 85F76D03224961D3007C65C6 /* Logo white.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,7 @@
 		85D391E421977A2B00CF2E74 /* PanelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelViewController.swift; sourceTree = "<group>"; };
 		85D391E621978E3600CF2E74 /* SCDB.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = SCDB.csv; sourceTree = "<group>"; };
 		85D63968210A706D00557B6B /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		85F76D03224961D3007C65C6 /* Logo white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Logo white.png"; sourceTree = "<group>"; };
 		8E3C1DCBD0B5CB9E6830C660 /* Pods-RightsWatch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RightsWatch.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RightsWatch/Pods-RightsWatch.debug.xcconfig"; sourceTree = "<group>"; };
 		FEAE8797D533B7C093993242 /* Pods-RightsWatch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RightsWatch.release.xcconfig"; path = "Pods/Target Support Files/Pods-RightsWatch/Pods-RightsWatch.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -202,6 +204,7 @@
 			children = (
 				85757DE820DB2ACB00216677 /* Main.storyboard */,
 				85757DED20DB2ACB00216677 /* LaunchScreen.storyboard */,
+				85F76D03224961D3007C65C6 /* Logo white.png */,
 				85D08FFD20E6CF620000C3D1 /* UIElements.swift */,
 			);
 			path = Views;
@@ -349,6 +352,7 @@
 			files = (
 				85757DEF20DB2ACB00216677 /* LaunchScreen.storyboard in Resources */,
 				85757DEC20DB2ACB00216677 /* Assets.xcassets in Resources */,
+				85F76D04224961D3007C65C6 /* Logo white.png in Resources */,
 				85D63969210A706D00557B6B /* Podfile in Resources */,
 				85D391E721978E3600CF2E74 /* SCDB.csv in Resources */,
 				856C2EBB219BA53D005FD9B5 /* Issues.csv in Resources */,

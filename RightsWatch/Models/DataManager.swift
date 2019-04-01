@@ -53,8 +53,6 @@ class DataManager {
                 return nil
             }
             return result![0] as? CaseLaw
-
-            
         } catch {
             
             print("Failed")
