@@ -45,6 +45,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         // Clear selection if view isn't split (ie if in portrait mode)
         clearsSelectionOnViewWillAppear = splitViewController!.isCollapsed
         super.viewWillAppear(animated)
+        tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {

@@ -15,8 +15,6 @@ class NumberField: UITextField {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.keyboardType = UIKeyboardType.numberPad
-
-
 //        fatalError("init(coder:) has not been implemented")
     }
 }
@@ -24,11 +22,6 @@ class NumberField: UITextField {
 class CaseDisplay: WKWebView {
     
 }
-
-
-
-
-
 
 // Extension to display HTML as formatted text
 extension String {
